@@ -1,0 +1,8 @@
+@import url('./main-layout.css');
+@import url('./views/لوحةتحكمالأستاذ-view.css');
+@import url('./views/الأحداثوالنقاشاتالعامة-view.css');
+@import url('./views/التلاميذ-view.css');
+@import url('./views/لوحةالتحكم-view.css');
+@import url('./views/قاعةالتعاونات-view.css');
+@import url('./views/إضافةتلميذ-view.css');
+@import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
