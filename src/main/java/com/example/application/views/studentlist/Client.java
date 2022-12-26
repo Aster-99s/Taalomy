@@ -1,4 +1,4 @@
-package com.example.application.views.التلاميذ;
+package com.example.application.views.studentlist;
 
 public class Client {
 

@@ -1,4 +1,4 @@
-package com.example.application.views.الأحداثوالنقاشاتالعامة;
+package com.example.application.views.crossforums;
 
 public class Person {
 

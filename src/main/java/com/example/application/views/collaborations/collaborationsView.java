@@ -1,4 +1,4 @@
-package com.example.application.views.قاعةالتعاونات;
+package com.example.application.views.collaborations;
 
 import com.example.application.data.entity.Student;
 import com.example.application.data.service.StudentService;
@@ -36,7 +36,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 @PageTitle("قاعة التعاونات")
 @Route(value = "Collaboration-room/:studentID?/:action?(edit)", layout = MainLayout.class)
 @RolesAllowed("USER")
-public class قاعةالتعاوناتView extends Div implements BeforeEnterObserver {
+public class collaborationsView extends Div implements BeforeEnterObserver {
 
     private final String STUDENT_ID = "studentID";
     private final String STUDENT_EDIT_ROUTE_TEMPLATE = "Collaboration-room/%s/edit";
@@ -62,7 +62,7 @@ public class قاعةالتعاوناتView extends Div implements BeforeEnterOb
 
     private final StudentService studentService;
 
-    public قاعةالتعاوناتView(StudentService studentService) {
+    public collaborationsView(StudentService studentService) {
         this.studentService = studentService;
         addClassNames("قاعةالتعاونات-view");
 
@@ -104,7 +104,7 @@ public class قاعةالتعاوناتView extends Div implements BeforeEnterOb
                 UI.getCurrent().navigate(String.format(STUDENT_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
             } else {
                 clearForm();
-                UI.getCurrent().navigate(قاعةالتعاوناتView.class);
+                UI.getCurrent().navigate(collaborationsView.class);
             }
         });
 
@@ -132,7 +132,7 @@ public class قاعةالتعاوناتView extends Div implements BeforeEnterOb
                 clearForm();
                 refreshGrid();
                 Notification.show("Data updated");
-                UI.getCurrent().navigate(قاعةالتعاوناتView.class);
+                UI.getCurrent().navigate(collaborationsView.class);
             } catch (ObjectOptimisticLockingFailureException exception) {
                 Notification n = Notification.show(
                         "Error updating the data. Somebody else has updated the record while you were making changes.");
@@ -157,7 +157,7 @@ public class قاعةالتعاوناتView extends Div implements BeforeEnterOb
                 // when a row is selected but the data is no longer available,
                 // refresh grid
                 refreshGrid();
-                event.forwardTo(قاعةالتعاوناتView.class);
+                event.forwardTo(collaborationsView.class);
             }
         }
     }

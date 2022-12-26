@@ -4,14 +4,16 @@ import com.example.application.components.appnav.AppNav;
 import com.example.application.components.appnav.AppNavItem;
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
-import com.example.application.views.إضافةتلميذ.إضافةتلميذView;
-import com.example.application.views.الأحداثوالنقاشاتالعامة.الأحداثوالنقاشاتالعامةView;
-import com.example.application.views.التلاميذ.التلاميذView;
-import com.example.application.views.التنقيط.التنقيطView;
-import com.example.application.views.المحادثات.المحادثاتView;
-import com.example.application.views.قاعةالتعاونات.قاعةالتعاوناتView;
-import com.example.application.views.لوحةالتحكم.لوحةالتحكمView;
-import com.example.application.views.لوحةتحكمالأستاذ.لوحةتحكمالأستاذView;
+import com.example.application.views.addstudent.addStudentView;
+import com.example.application.views.crossforums.crossForumsView;
+import com.example.application.views.studentlist.studentListView;
+import com.example.application.views.noting.notingView;
+import com.example.application.views.chats.chatsView;
+import com.example.application.views.collaborations.collaborationsView;
+import com.example.application.views.admindashboard.adminDashboardView;
+import com.example.application.views.teacherdashboard.teacherDashboardView;
+import com.vaadin.flow.component.Direction;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -43,31 +45,34 @@ public class MainLayout extends AppLayout {
     private AccessAnnotationChecker accessChecker;
 
     public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker) {
+        //RTL Support
+        final UI ui = UI.getCurrent();
+            ui.setDirection(Direction.RIGHT_TO_LEFT);
         this.authenticatedUser = authenticatedUser;
         this.accessChecker = accessChecker;
 
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
+
     }
 
     private void addHeaderContent() {
         DrawerToggle toggle = new DrawerToggle();
         toggle.getElement().setAttribute("aria-label", "Menu toggle");
-
+        toggle.getThemeNames().set("dark", true);
+        toggle.setId("header");
         viewTitle = new H2();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
-
-        addToNavbar(true, toggle, viewTitle);
+        addToNavbar(true,toggle, viewTitle);
     }
 
     private void addDrawerContent() {
-        H1 appName = new H1("Taalomy");
+        H1 appName = new H1("تعلمي");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(appName);
 
         Scroller scroller = new Scroller(createNavigation());
-
         addToDrawer(header, scroller, createFooter());
     }
 
@@ -76,36 +81,36 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
-        if (accessChecker.hasAccess(لوحةتحكمالأستاذView.class)) {
-            nav.addItem(new AppNavItem("لوحة تحكم الأستاذ", لوحةتحكمالأستاذView.class, "la la-chart-area"));
+        if (accessChecker.hasAccess(teacherDashboardView.class)) {
+            nav.addItem(new AppNavItem("لوحة تحكم الأستاذ", teacherDashboardView.class, "la la-chart-area"));
 
         }
-        if (accessChecker.hasAccess(الأحداثوالنقاشاتالعامةView.class)) {
-            nav.addItem(new AppNavItem("الأحداث والنقاشات العامة", الأحداثوالنقاشاتالعامةView.class, "la la-list"));
+        if (accessChecker.hasAccess(crossForumsView.class)) {
+            nav.addItem(new AppNavItem("الأحداث والنقاشات العامة", crossForumsView.class, "la la-list"));
 
         }
-        if (accessChecker.hasAccess(التلاميذView.class)) {
-            nav.addItem(new AppNavItem("التلاميذ", التلاميذView.class, "la la-th"));
+        if (accessChecker.hasAccess(studentListView.class)) {
+            nav.addItem(new AppNavItem("التلاميذ", studentListView.class, "la la-th"));
 
         }
-        if (accessChecker.hasAccess(التنقيطView.class)) {
-            nav.addItem(new AppNavItem("التنقيط", التنقيطView.class, "la la-file-excel"));
+        if (accessChecker.hasAccess(notingView.class)) {
+            nav.addItem(new AppNavItem("التنقيط", notingView.class, "la la-file-excel"));
 
         }
-        if (accessChecker.hasAccess(المحادثاتView.class)) {
-            nav.addItem(new AppNavItem("المحادثات", المحادثاتView.class, "la la-comments"));
+        if (accessChecker.hasAccess(chatsView.class)) {
+            nav.addItem(new AppNavItem("المحادثات", chatsView.class, "la la-comments"));
 
         }
-        if (accessChecker.hasAccess(لوحةالتحكمView.class)) {
-            nav.addItem(new AppNavItem("لوحة التحكم ", لوحةالتحكمView.class, "la la-screwdriver"));
+        if (accessChecker.hasAccess(adminDashboardView.class)) {
+            nav.addItem(new AppNavItem("لوحة التحكم ", adminDashboardView.class, "la la-screwdriver"));
 
         }
-        if (accessChecker.hasAccess(قاعةالتعاوناتView.class)) {
-            nav.addItem(new AppNavItem("قاعة التعاونات", قاعةالتعاوناتView.class, "la la-users"));
+        if (accessChecker.hasAccess(collaborationsView.class)) {
+            nav.addItem(new AppNavItem("قاعة التعاونات", collaborationsView.class, "la la-users"));
 
         }
-        if (accessChecker.hasAccess(إضافةتلميذView.class)) {
-            nav.addItem(new AppNavItem("إضافة تلميذ", إضافةتلميذView.class, "la la-user-edit"));
+        if (accessChecker.hasAccess(addStudentView.class)) {
+            nav.addItem(new AppNavItem("إضافة تلميذ", addStudentView.class, "la la-user-edit"));
 
         }
 

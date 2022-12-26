@@ -1,4 +1,4 @@
-package com.example.application.views.لوحةالتحكم;
+package com.example.application.views.admindashboard;
 
 /**
  * Simple DTO class for the inbox list to demonstrate complex object data

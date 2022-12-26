@@ -1,8 +1,8 @@
-package com.example.application.views.لوحةالتحكم;
+package com.example.application.views.admindashboard;
 
 
 import com.example.application.views.MainLayout;
-import com.example.application.views.لوحةالتحكم.ServiceHealth.Status;
+import com.example.application.views.admindashboard.ServiceHealth.Status;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.charts.Chart;
@@ -33,9 +33,9 @@ import jakarta.annotation.security.RolesAllowed;
 @PageTitle("لوحة التحكم ")
 @Route(value = "Admin-Dashboard", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
-public class لوحةالتحكمView extends Main {
+public class adminDashboardView extends Main {
 
-    public لوحةالتحكمView() {
+    public adminDashboardView() {
         addClassName("لوحةالتحكم-view");
 
         Board board = new Board();

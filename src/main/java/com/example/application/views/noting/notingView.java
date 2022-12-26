@@ -1,4 +1,4 @@
-package com.example.application.views.التنقيط;
+package com.example.application.views.noting;
 
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.ClickEvent;
@@ -57,13 +57,13 @@ import org.slf4j.LoggerFactory;
 @PageTitle("التنقيط")
 @Route(value = "Notes", layout = MainLayout.class)
 @RolesAllowed("USER")
-public class التنقيطView extends VerticalLayout implements Receiver {
+public class notingView extends VerticalLayout implements Receiver {
 
     private File uploadedFile;
     private File previousFile;
     private final Spreadsheet spreadsheet;
 
-    public التنقيطView() {
+    public notingView() {
         setSizeFull();
 
         spreadsheet = new Spreadsheet();

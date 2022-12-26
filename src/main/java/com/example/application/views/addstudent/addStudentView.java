@@ -1,4 +1,4 @@
-package com.example.application.views.إضافةتلميذ;
+package com.example.application.views.addstudent;
 
 import com.example.application.data.entity.SamplePerson;
 import com.example.application.data.service.SamplePersonService;
@@ -27,7 +27,7 @@ import jakarta.annotation.security.RolesAllowed;
 @Route(value = "Student-addition", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 @Uses(Icon.class)
-public class إضافةتلميذView extends Div {
+public class addStudentView extends Div {
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
@@ -41,7 +41,7 @@ public class إضافةتلميذView extends Div {
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
 
-    public إضافةتلميذView(SamplePersonService personService) {
+    public addStudentView(SamplePersonService personService) {
         addClassName("إضافةتلميذ-view");
 
         add(createTitle());

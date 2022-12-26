@@ -1,8 +1,8 @@
-package com.example.application.views.لوحةتحكمالأستاذ;
+package com.example.application.views.teacherdashboard;
 
 
 import com.example.application.views.MainLayout;
-import com.example.application.views.لوحةتحكمالأستاذ.ServiceHealth.Status;
+import com.example.application.views.teacherdashboard.ServiceHealth.Status;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.charts.Chart;
@@ -35,9 +35,9 @@ import jakarta.annotation.security.RolesAllowed;
 @Route(value = "TeacherDashboard", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @RolesAllowed("USER")
-public class لوحةتحكمالأستاذView extends Main {
+public class teacherDashboardView extends Main {
 
-    public لوحةتحكمالأستاذView() {
+    public teacherDashboardView() {
         addClassName("لوحةتحكمالأستاذ-view");
 
         Board board = new Board();

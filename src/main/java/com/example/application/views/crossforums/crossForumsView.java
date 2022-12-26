@@ -1,4 +1,4 @@
-package com.example.application.views.الأحداثوالنقاشاتالعامة;
+package com.example.application.views.crossforums;
 
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -21,11 +21,11 @@ import java.util.List;
 @PageTitle("الأحداث والنقاشات العامة")
 @Route(value = "Cross-Forum", layout = MainLayout.class)
 @RolesAllowed("USER")
-public class الأحداثوالنقاشاتالعامةView extends Div implements AfterNavigationObserver {
+public class crossForumsView extends Div implements AfterNavigationObserver {
 
     Grid<Person> grid = new Grid<>();
 
-    public الأحداثوالنقاشاتالعامةView() {
+    public crossForumsView() {
         addClassName("الأحداثوالنقاشاتالعامة-view");
         setSizeFull();
         grid.setHeight("100%");

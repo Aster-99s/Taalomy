@@ -1,4 +1,4 @@
-package com.example.application.views.التلاميذ;
+package com.example.application.views.studentlist;
 
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -33,7 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 @PageTitle("التلاميذ")
 @Route(value = "Student-list", layout = MainLayout.class)
 @PermitAll
-public class التلاميذView extends Div {
+public class studentListView extends Div {
 
     private GridPro<Client> grid;
     private GridListDataView<Client> gridListDataView;
@@ -43,7 +43,7 @@ public class التلاميذView extends Div {
     private Grid.Column<Client> statusColumn;
     private Grid.Column<Client> dateColumn;
 
-    public التلاميذView() {
+    public studentListView() {
         addClassName("التلاميذ-view");
         setSizeFull();
         createGrid();

@@ -1,4 +1,4 @@
-package com.example.application.views.المحادثات;
+package com.example.application.views.chats;
 
 import com.example.application.views.MainLayout;
 import com.vaadin.collaborationengine.CollaborationMessageInput;
@@ -15,9 +15,9 @@ import java.util.UUID;
 @PageTitle("المحادثات")
 @Route(value = "chat", layout = MainLayout.class)
 @PermitAll
-public class المحادثاتView extends VerticalLayout {
+public class chatsView extends VerticalLayout {
 
-    public المحادثاتView() {
+    public chatsView() {
         addClassName("المحادثات-view");
         setSpacing(false);
         // UserInfo is used by Collaboration Engine and is used to share details
