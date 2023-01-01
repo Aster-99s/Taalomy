@@ -4,6 +4,8 @@ import com.example.application.views.MainLayout;
 import com.vaadin.collaborationengine.CollaborationMessageInput;
 import com.vaadin.collaborationengine.CollaborationMessageList;
 import com.vaadin.collaborationengine.UserInfo;
+import com.vaadin.flow.component.Direction;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -18,6 +20,10 @@ import java.util.UUID;
 public class chatsView extends VerticalLayout {
 
     public chatsView() {
+        //RTL Support
+        final UI ui = UI.getCurrent();
+        ui.setDirection(Direction.RIGHT_TO_LEFT);
+
         addClassName("المحادثات-view");
         setSpacing(false);
         // UserInfo is used by Collaboration Engine and is used to share details

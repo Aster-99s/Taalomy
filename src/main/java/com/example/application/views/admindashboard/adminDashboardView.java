@@ -4,6 +4,8 @@ package com.example.application.views.admindashboard;
 import com.example.application.views.MainLayout;
 import com.example.application.views.admindashboard.ServiceHealth.Status;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Direction;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
@@ -36,6 +38,10 @@ import jakarta.annotation.security.RolesAllowed;
 public class adminDashboardView extends Main {
 
     public adminDashboardView() {
+        //RTL Support
+        final UI ui = UI.getCurrent();
+        ui.setDirection(Direction.RIGHT_TO_LEFT);
+
         addClassName("لوحةالتحكم-view");
 
         Board board = new Board();

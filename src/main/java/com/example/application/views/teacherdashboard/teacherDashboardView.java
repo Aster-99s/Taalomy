@@ -1,35 +1,34 @@
 package com.example.application.views.teacherdashboard;
 
-
+//import com.example.application.WeatherApi;
+//import com.example.application.services.weatherService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.teacherdashboard.ServiceHealth.Status;
-import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Main;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import com.vaadin.flow.theme.lumo.LumoUtility.BoxSizing;
 import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
-import com.vaadin.flow.theme.lumo.LumoUtility.FontWeight;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import jakarta.annotation.security.RolesAllowed;
+import org.vaadin.stefan.fullcalendar.*;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.time.LocalDate;
 
 @PageTitle("لوحة تحكم الأستاذ")
 @Route(value = "TeacherDashboard", layout = MainLayout.class)
@@ -37,89 +36,53 @@ import jakarta.annotation.security.RolesAllowed;
 @RolesAllowed("USER")
 public class teacherDashboardView extends Main {
 
+
     public teacherDashboardView() {
+        //RTL Support
+        final UI ui = UI.getCurrent();
+        ui.setDirection(Direction.RIGHT_TO_LEFT);
+        Header header = new Header();
         addClassName("لوحةتحكمالأستاذ-view");
-
         Board board = new Board();
-        board.addRow(createHighlight("Current users", "745", 33.7), createHighlight("View events", "54.6k", -112.45),
-                createHighlight("Conversion rate", "18%", 3.9), createHighlight("Custom metric", "-123.45", 0.0));
-        board.addRow(createViewEvents());
+
+        // adding items to the board
+        board.addRow();
+        board.addRow(weather(),calendar());
         board.addRow(createServiceHealth(), createResponseTimes());
-        add(board);
+        // adding the board to the view
+        add(header,board);
     }
 
-    private Component createHighlight(String title, String value, Double percentage) {
-        VaadinIcon icon = VaadinIcon.ARROW_UP;
-        String prefix = "";
-        String theme = "badge";
 
-        if (percentage == 0) {
-            prefix = "±";
-        } else if (percentage > 0) {
-            prefix = "+";
-            theme += " success";
-        } else if (percentage < 0) {
-            icon = VaadinIcon.ARROW_DOWN;
-            theme += " error";
-        }
 
-        H2 h2 = new H2(title);
-        h2.addClassNames(FontWeight.NORMAL, Margin.NONE, TextColor.SECONDARY, FontSize.XSMALL);
 
-        Span span = new Span(value);
-        span.addClassNames(FontWeight.SEMIBOLD, FontSize.XXXLARGE);
-
-        Icon i = icon.create();
-        i.addClassNames(BoxSizing.BORDER, Padding.XSMALL);
-
-        Span badge = new Span(i, new Span(prefix + percentage.toString()));
-        badge.getElement().getThemeList().add(theme);
-
-        VerticalLayout layout = new VerticalLayout(h2, span, badge);
-        layout.addClassName(Padding.LARGE);
-        layout.setPadding(false);
-        layout.setSpacing(false);
-        return layout;
+    private Component calendar(){
+        FullCalendar calendar = FullCalendarBuilder.create().build();
+        calendar.getBrowserTimezone();
+        calendar.setHeight(500);
+        calendar.changeView(CalendarViewImpl.TIME_GRID_WEEK );
+        //Calendar entries
+        Entry entry = new Entry();
+        entry.setTitle("Some event");
+        entry.setColor("#ff3333");
+        entry.setStart(LocalDate.now().withDayOfMonth(3).atTime(10, 0));
+        entry.setEnd(entry.getStart().plusHours(2));
+        calendar.addEntry(entry);
+        return calendar;
     }
 
-    private Component createViewEvents() {
-        // Header
-        Select year = new Select();
-        year.setItems("2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021");
-        year.setValue("2021");
-        year.setWidth("100px");
+    private Component weather() {
 
-        HorizontalLayout header = createHeader("View events", "City/month");
-        header.add(year);
+        // 35.4269° N, 7.1460° E
+        Image weatherStatusIcon = new Image();
+        //WeatherApi weatherStatus = new WeatherApi(new weatherService() );
+        //weatherStatus.getWeather() ;
+        //H3 currentWeather = new H3(String.valueOf(weatherStatus.getMain().getTemp()));
 
-        // Chart
-        Chart chart = new Chart(ChartType.AREASPLINE);
-        Configuration conf = chart.getConfiguration();
-        conf.getChart().setStyledMode(true);
-
-        XAxis xAxis = new XAxis();
-        xAxis.setCategories("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-        conf.addxAxis(xAxis);
-
-        conf.getyAxis().setTitle("Values");
-
-        PlotOptionsAreaspline plotOptions = new PlotOptionsAreaspline();
-        plotOptions.setPointPlacement(PointPlacement.ON);
-        plotOptions.setMarker(new Marker(false));
-        conf.addPlotOptions(plotOptions);
-
-        conf.addSeries(new ListSeries("Berlin", 189, 191, 291, 396, 501, 403, 609, 712, 729, 942, 1044, 1247));
-        conf.addSeries(new ListSeries("London", 138, 246, 248, 348, 352, 353, 463, 573, 778, 779, 885, 887));
-        conf.addSeries(new ListSeries("New York", 65, 65, 166, 171, 293, 302, 308, 317, 427, 429, 535, 636));
-        conf.addSeries(new ListSeries("Tokyo", 0, 11, 17, 123, 130, 142, 248, 349, 452, 454, 458, 462));
-
-        // Add it all together
-        VerticalLayout viewEvents = new VerticalLayout(header, chart);
-        viewEvents.addClassName(Padding.LARGE);
-        viewEvents.setPadding(false);
-        viewEvents.setSpacing(false);
-        viewEvents.getElement().getThemeList().add("spacing-l");
-        return viewEvents;
+        weatherStatusIcon.setSrc("/icons/weatherIcons/storm-weather-day.png");
+       VerticalLayout weatherWidget = new VerticalLayout();
+        weatherWidget.add(/*currentWeather*/weatherStatusIcon);
+        return weatherWidget;
     }
 
     private Component createServiceHealth() {
@@ -225,5 +188,24 @@ public class teacherDashboardView extends Main {
         }
         return theme;
     }
+    public static String executePost(String targetURL) {
+        try {
+            URL yahoo = new URL(targetURL);
+            URLConnection yc = yahoo.openConnection();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(
+                            yc.getInputStream()));
+            String inputLine;
 
+            while ((inputLine = in.readLine()) != null)
+                System.out.println(inputLine);
+            in.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return null;
+    }
 }
+

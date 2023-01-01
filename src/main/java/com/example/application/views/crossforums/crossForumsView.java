@@ -1,6 +1,8 @@
 package com.example.application.views.crossforums;
 
 import com.example.application.views.MainLayout;
+import com.vaadin.flow.component.Direction;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
@@ -26,6 +28,10 @@ public class crossForumsView extends Div implements AfterNavigationObserver {
     Grid<Person> grid = new Grid<>();
 
     public crossForumsView() {
+        //RTL Support
+        final UI ui = UI.getCurrent();
+        ui.setDirection(Direction.RIGHT_TO_LEFT);
+
         addClassName("الأحداثوالنقاشاتالعامة-view");
         setSizeFull();
         grid.setHeight("100%");

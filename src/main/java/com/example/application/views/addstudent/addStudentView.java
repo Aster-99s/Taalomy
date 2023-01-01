@@ -4,6 +4,8 @@ import com.example.application.data.entity.SamplePerson;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Direction;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -23,27 +25,37 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 
+import java.util.Locale;
+
 @PageTitle("إضافة تلميذ")
 @Route(value = "Student-addition", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 @Uses(Icon.class)
 public class addStudentView extends Div {
 
-    private TextField firstName = new TextField("First name");
-    private TextField lastName = new TextField("Last name");
-    private EmailField email = new EmailField("Email address");
-    private DatePicker dateOfBirth = new DatePicker("Birthday");
-    private PhoneNumberField phone = new PhoneNumberField("Phone number");
-    private TextField occupation = new TextField("Occupation");
+    Locale FRlocal = new Locale("fr", "FR");
 
-    private Button cancel = new Button("Cancel");
-    private Button save = new Button("Save");
+    private TextField firstName = new TextField("الأسم");
+    private TextField lastName = new TextField("اللقب");
+    private EmailField email = new EmailField("البريد الالكتروني");
+    private DatePicker dateOfBirth = new DatePicker("تاريخ الميلاد");
+    private PhoneNumberField phone = new PhoneNumberField("رقم الهاتف");
+    private TextField occupation = new TextField("المستوى");
+
+    private Button cancel = new Button("إلغاء");
+    private Button save = new Button("حفظ");
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
 
     public addStudentView(SamplePersonService personService) {
-        addClassName("إضافةتلميذ-view");
+        //RTL Support
+        final UI ui = UI.getCurrent();
+        ui.setDirection(Direction.RIGHT_TO_LEFT);
 
+        dateOfBirth.setLocale(Locale.FRANCE);
+
+
+        addClassName("إضافةتلميذ-view");
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
@@ -54,7 +66,7 @@ public class addStudentView extends Div {
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
             personService.update(binder.getBean());
-            Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
+            Notification.show(binder.getBean().getClass().getSimpleName() + " تم الحفظ ");
             clearForm();
         });
     }
@@ -64,12 +76,12 @@ public class addStudentView extends Div {
     }
 
     private Component createTitle() {
-        return new H3("Personal information");
+        return new H3("المعلومات الشخصية للتلميذ");
     }
 
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
-        email.setErrorMessage("Please enter a valid email address");
+        email.setErrorMessage("الرجاء إدخال بريد إلكتروني صحيح !");
         formLayout.add(firstName, lastName, dateOfBirth, phone, email, occupation);
         return formLayout;
     }
@@ -89,21 +101,16 @@ public class addStudentView extends Div {
 
         public PhoneNumberField(String label) {
             setLabel(label);
-            countryCode.setWidth("120px");
-            countryCode.setPlaceholder("Country");
-            countryCode.setAllowedCharPattern("[\\+\\d]");
-            countryCode.setItems("+354", "+91", "+62", "+98", "+964", "+353", "+44", "+972", "+39", "+225");
-            countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
             number.setAllowedCharPattern("\\d");
-            HorizontalLayout layout = new HorizontalLayout(countryCode, number);
+            HorizontalLayout layout = new HorizontalLayout( number);
             layout.setFlexGrow(1.0, number);
             add(layout);
         }
 
         @Override
         protected String generateModelValue() {
-            if (countryCode.getValue() != null && number.getValue() != null) {
-                String s = countryCode.getValue() + " " + number.getValue();
+            if (number.getValue() != null) {
+                String s = number.getValue();
                 return s;
             }
             return "";

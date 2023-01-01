@@ -1,6 +1,8 @@
 package com.example.application.views.studentlist;
 
 import com.example.application.views.MainLayout;
+import com.vaadin.flow.component.Direction;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
@@ -44,6 +46,10 @@ public class studentListView extends Div {
     private Grid.Column<Client> dateColumn;
 
     public studentListView() {
+        //RTL Support
+        final UI ui = UI.getCurrent();
+        ui.setDirection(Direction.RIGHT_TO_LEFT);
+
         addClassName("التلاميذ-view");
         setSizeFull();
         createGrid();

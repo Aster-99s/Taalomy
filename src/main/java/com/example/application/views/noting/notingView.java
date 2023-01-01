@@ -1,10 +1,7 @@
 package com.example.application.views.noting;
 
 import com.example.application.views.MainLayout;
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.HasMenuItems;
@@ -64,6 +61,8 @@ public class notingView extends VerticalLayout implements Receiver {
     private final Spreadsheet spreadsheet;
 
     public notingView() {
+        final UI ui = UI.getCurrent();
+        ui.setDirection(Direction.LEFT_TO_RIGHT);
         setSizeFull();
 
         spreadsheet = new Spreadsheet();

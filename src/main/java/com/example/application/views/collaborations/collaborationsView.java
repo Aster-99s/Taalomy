@@ -6,6 +6,7 @@ import com.example.application.views.MainLayout;
 import com.vaadin.collaborationengine.CollaborationAvatarGroup;
 import com.vaadin.collaborationengine.CollaborationBinder;
 import com.vaadin.collaborationengine.UserInfo;
+import com.vaadin.flow.component.Direction;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -63,6 +64,10 @@ public class collaborationsView extends Div implements BeforeEnterObserver {
     private final StudentService studentService;
 
     public collaborationsView(StudentService studentService) {
+        //RTL Support
+        final UI ui = UI.getCurrent();
+        ui.setDirection(Direction.RIGHT_TO_LEFT);
+
         this.studentService = studentService;
         addClassNames("قاعةالتعاونات-view");
 
