@@ -1,11 +1,12 @@
 package com.example.application.views.teacherdashboard;
 
-//import com.example.application.WeatherApi;
-//import com.example.application.services.weatherService;
+import com.example.application.WeatherApi;
+import com.example.application.services.weatherService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.teacherdashboard.ServiceHealth.Status;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.board.Board;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -24,11 +25,14 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.stefan.fullcalendar.*;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @PageTitle("لوحة تحكم الأستاذ")
 @Route(value = "TeacherDashboard", layout = MainLayout.class)
@@ -46,8 +50,8 @@ public class teacherDashboardView extends Main {
         Board board = new Board();
 
         // adding items to the board
-        board.addRow();
-        board.addRow(weather(),calendar());
+        board.addRow(weather());
+        board.addRow(calendar());
         board.addRow(createServiceHealth(), createResponseTimes());
         // adding the board to the view
         add(header,board);
@@ -75,13 +79,14 @@ public class teacherDashboardView extends Main {
 
         // 35.4269° N, 7.1460° E
         Image weatherStatusIcon = new Image();
-        //WeatherApi weatherStatus = new WeatherApi(new weatherService() );
-        //weatherStatus.getWeather() ;
-        //H3 currentWeather = new H3(String.valueOf(weatherStatus.getMain().getTemp()));
+        weatherService ss = new weatherService();
+       final Grid<WeatherApi> commentsGrid = new Grid<WeatherApi>(WeatherApi.class);
+       final Button fetchComments = new Button("Fetch Weather",
+               e -> commentsGrid.setItems(ss.getWeatherService()));
 
         weatherStatusIcon.setSrc("/icons/weatherIcons/storm-weather-day.png");
        VerticalLayout weatherWidget = new VerticalLayout();
-        weatherWidget.add(/*currentWeather*/weatherStatusIcon);
+        weatherWidget.add(fetchComments,commentsGrid,weatherStatusIcon);
         return weatherWidget;
     }
 
