@@ -5,6 +5,7 @@ import com.example.application.components.appnav.AppNavItem;
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.addstudent.addStudentView;
+import com.example.application.views.books.booksView;
 import com.example.application.views.crossforums.crossForumsView;
 import com.example.application.views.studentlist.studentListView;
 import com.example.application.views.noting.notingView;
@@ -25,6 +26,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
@@ -81,36 +83,41 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
+        if (accessChecker.hasAccess(booksView.class)) {
+            nav.addItem(new AppNavItem("مكتبتي", booksView.class ,new Icon(VaadinIcon.OPEN_BOOK)));
+
+        }
         if (accessChecker.hasAccess(teacherDashboardView.class)) {
-            nav.addItem(new AppNavItem("لوحة تحكم الأستاذ", teacherDashboardView.class, "la la-chart-area"));
+            nav.addItem(new AppNavItem("لوحة تحكم الأستاذ", teacherDashboardView.class, new Icon(VaadinIcon.CHART_TIMELINE)));
 
         }
         if (accessChecker.hasAccess(crossForumsView.class)) {
-            nav.addItem(new AppNavItem("الأحداث والنقاشات العامة", crossForumsView.class, "la la-list"));
+            nav.addItem(new AppNavItem("الأحداث والنقاشات العامة", crossForumsView.class, new Icon(VaadinIcon.MEGAPHONE)));
 
         }
+
         if (accessChecker.hasAccess(studentListView.class)) {
-            nav.addItem(new AppNavItem("التلاميذ", studentListView.class, "la la-th"));
+            nav.addItem(new AppNavItem("التلاميذ", studentListView.class, new Icon(VaadinIcon.LIST_SELECT)));
 
         }
         if (accessChecker.hasAccess(notingView.class)) {
-            nav.addItem(new AppNavItem("التنقيط", notingView.class, "la la-file-excel"));
+            nav.addItem(new AppNavItem("التنقيط", notingView.class, new Icon(VaadinIcon.FILE_TABLE)));
 
         }
         if (accessChecker.hasAccess(chatsView.class)) {
-            nav.addItem(new AppNavItem("المحادثات", chatsView.class, "la la-comments"));
+            nav.addItem(new AppNavItem("المحادثات", chatsView.class, new Icon(VaadinIcon.COMMENTS)));
 
         }
         if (accessChecker.hasAccess(adminDashboardView.class)) {
-            nav.addItem(new AppNavItem("لوحة التحكم ", adminDashboardView.class, "la la-screwdriver"));
+            nav.addItem(new AppNavItem("لوحة التحكم ", adminDashboardView.class, new Icon(VaadinIcon.COGS)));
 
         }
         if (accessChecker.hasAccess(collaborationsView.class)) {
-            nav.addItem(new AppNavItem("قاعة التعاونات", collaborationsView.class, "la la-users"));
+            nav.addItem(new AppNavItem("قاعة التعاونات", collaborationsView.class, new Icon(VaadinIcon.GROUP)));
 
         }
         if (accessChecker.hasAccess(addStudentView.class)) {
-            nav.addItem(new AppNavItem("إضافة تلميذ", addStudentView.class, "la la-user-edit"));
+            nav.addItem(new AppNavItem("إضافة تلميذ", addStudentView.class, new Icon(VaadinIcon.EDIT)));
 
         }
 

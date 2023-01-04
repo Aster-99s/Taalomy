@@ -4,6 +4,7 @@ import com.example.application.WeatherApi;
 import com.example.application.services.weatherService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.teacherdashboard.ServiceHealth.Status;
+import com.vaadin.componentfactory.pdfviewer.PdfViewer;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.button.Button;
@@ -20,6 +21,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
@@ -46,9 +48,8 @@ public class teacherDashboardView extends Main {
         final UI ui = UI.getCurrent();
         ui.setDirection(Direction.RIGHT_TO_LEFT);
         Header header = new Header();
-        addClassName("لوحةتحكمالأستاذ-view");
+        addClassName("teacher-dashboard-view");
         Board board = new Board();
-
         // adding items to the board
         board.addRow(weather());
         board.addRow(calendar());
