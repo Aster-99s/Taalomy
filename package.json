@@ -92,6 +92,7 @@
     "lit": "2.4.1",
     "moment": "2.29.1",
     "moment-timezone": "0.5.32",
+    "print-js": "1.6.0",
     "proj4": "2.8.0"
   },
   "devDependencies": {
@@ -201,7 +202,8 @@
     "@fullcalendar/moment": "$@fullcalendar/moment",
     "@vaadin-component-factory/vcf-nav": "$@vaadin-component-factory/vcf-nav",
     "line-awesome": "$line-awesome",
-    "@vaadin-component-factory/vcf-pdf-viewer": "$@vaadin-component-factory/vcf-pdf-viewer"
+    "@vaadin-component-factory/vcf-pdf-viewer": "$@vaadin-component-factory/vcf-pdf-viewer",
+    "print-js": "$print-js"
   },
   "vaadin": {
     "dependencies": {
@@ -295,6 +297,7 @@
       "lit": "2.4.1",
       "moment": "2.29.1",
       "moment-timezone": "0.5.32",
+      "print-js": "1.6.0",
       "proj4": "2.8.0"
     },
     "devDependencies": {
@@ -313,6 +316,6 @@
       "workbox-core": "6.5.0",
       "workbox-precaching": "6.5.0"
     },
-    "hash": "477bd203f2b142c4e4d8dbfd33f6e6cd84e3e28c58f96f8cbfc6d950448c732b"
+    "hash": "b10d21a599a547d108ac062330f1817047c0b480c5d010500dac43a973a09469"
   }
 }

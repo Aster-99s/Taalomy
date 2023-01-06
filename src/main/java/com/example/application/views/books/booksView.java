@@ -16,8 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @PageTitle("مكتبتي")
 @Route(value = "Books", layout = MainLayout.class)
 @RolesAllowed("USER")
-public class booksView extends Main {
-    private booksView(){
+public class booksView extends Main{
+    private booksView() {
         //RTL Support
         final UI ui = UI.getCurrent();
         ui.setDirection(Direction.RIGHT_TO_LEFT);
@@ -34,10 +34,8 @@ public class booksView extends Main {
         pdfViewer.setAddDownloadButton(false);
         pdfViewer.setCustomTitle("اللغة العربية");
         pdfViewer.setAddPrintButton(true);
-        UI.getCurrent().getPage().retrieveExtendedClientDetails(receiver -> {
-           String screenHeight = String.valueOf(receiver.getWindowInnerHeight());
-           pdfViewer.setHeight(screenHeight);
-        });
+        pdfViewer.setSizeFull();
+        setHeight("100%");
         //
         add(pdfViewer);
 
