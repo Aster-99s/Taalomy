@@ -5,6 +5,7 @@ import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Direction;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -54,11 +55,17 @@ public class addStudentView extends Div {
 
         dateOfBirth.setLocale(Locale.FRANCE);
 
+        Button button = new Button("Update HTML");
+        Html html = new Html("<p>Hello, World !</p>");
 
+        button.addClickListener(event -> {
+            html.getElement().setProperty("innerHTML", "<p>New HTML content !</p>");
+        });
         addClassName("إضافةتلميذ-view");
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
+        add(button,html);
 
         binder.bindInstanceFields(this);
         clearForm();
