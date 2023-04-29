@@ -1,13 +1,9 @@
 package com.example.application.views.teacherdashboard;
 
-import com.example.application.WeatherApi;
-import com.example.application.services.weatherService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.teacherdashboard.ServiceHealth.Status;
-import com.vaadin.componentfactory.pdfviewer.PdfViewer;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.board.Board;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -21,20 +17,22 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
+import elemental.json.Json;
+import elemental.json.JsonArray;
+import elemental.json.JsonObject;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.stefan.fullcalendar.*;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @PageTitle("لوحة تحكم الأستاذ")
 @Route(value = "TeacherDashboard", layout = MainLayout.class)
@@ -51,13 +49,94 @@ public class teacherDashboardView extends Main {
         addClassName("teacher-dashboard-view");
         Board board = new Board();
         // adding items to the board
-        board.addRow(weather());
+     // board.addRow(weather());
         board.addRow(calendar());
         board.addRow(createServiceHealth(), createResponseTimes());
         // adding the board to the view
         add(header,board);
     }
 
+// For weather , icons in icons/weathericons
+    private Map<String, Object> weather(){
+        Map<String, Object> getWeatherStatus; {
+            // Initialize a map to store the weather status
+            Map<String, Object> weatherStatus = new HashMap<>();
+
+            try {
+                VaadinRequest request = VaadinRequest.getCurrent();
+
+                // Get the user location from the request
+                String userLocation = request.getParameter("location");
+                H1 whwh = new H1(userLocation);
+
+                // If the user location is null or empty, return an empty map
+                if (userLocation == null || userLocation.isEmpty()) {
+                    return (Map<String, Object>) weatherStatus;
+                }
+
+                // Build the Open Weather API URL with the user location and an API key
+                // You need to get your own API key from https://openweathermap.org/api_keys
+                String apiKey = "5ec0b81ebb2fb1d9486b936acdfaee60";
+                // 35.4269° N, 7.1460° E
+
+                String apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=35.42&lon=7.14&appid=5ec0b81ebb2fb1d9486b936acdfaee60&lang=AR&units=metric&";
+
+                // Create a URL object and open a connection
+                URL url = new URL(apiUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // Set the request method to GET and connect
+                connection.setRequestMethod("GET");
+                connection.connect();
+
+                // Get the response code and check if it is 200 (OK)
+                int responseCode = connection.getResponseCode();
+                if (responseCode == 200) {
+                    // Create a scanner to read the response
+                    Scanner scanner = new Scanner(url.openStream());
+
+                    // Append the response to a string
+                    String response = "";
+                    while (scanner.hasNext()) {
+                        response += scanner.nextLine();
+                    }
+
+                    // Close the scanner
+                    scanner.close();
+
+                    // Parse the response as a JSON object
+                    JsonObject responseJson = Json.parse(response);
+
+                    // Get the weather array from the JSON object
+                    JsonArray weatherArray = responseJson.getArray("weather");
+
+                    // If the weather array is not empty, get the first element
+                    if (weatherArray.length() > 0) {
+                        JsonObject weatherObject = weatherArray.getObject(0);
+
+                        // Get the weather id, main, description, and icon from the weather object
+                        int weatherId = (int) weatherObject.getNumber("id");
+                        String weatherMain = weatherObject.getString("main");
+                        String weatherDescription = weatherObject.getString("description");
+                        String weatherIcon = weatherObject.getString("icon");
+
+                        // Put the weather information into the map
+                        weatherStatus.put("id", weatherId);
+                        weatherStatus.put("main", weatherMain);
+                        weatherStatus.put("description", weatherDescription);
+                        weatherStatus.put("icon", weatherIcon);
+                    }
+                }
+            } catch (Exception e) {
+                // Handle any exceptions
+                e.printStackTrace();
+            }
+
+            // Return the map with the weather status
+            return  weatherStatus;
+        }
+
+    };
 
 
 
@@ -65,10 +144,12 @@ public class teacherDashboardView extends Main {
         FullCalendar calendar = FullCalendarBuilder.create().build();
         calendar.getBrowserTimezone();
         calendar.setHeight(500);
-        calendar.changeView(CalendarViewImpl.TIME_GRID_WEEK );
+        calendar.changeView(CalendarViewImpl.DAY_GRID_MONTH );
+        calendar.setLocale(Locale.forLanguageTag("ar-DZ"));
         //Calendar entries
         Entry entry = new Entry();
-        entry.setTitle("Some event");
+        entry.setTitle("تنبيهات متنوعة");
+        entry.setAllDay(true);
         entry.setColor("#ff3333");
         entry.setStart(LocalDate.now().withDayOfMonth(3).atTime(10, 0));
         entry.setEnd(entry.getStart().plusHours(2));
@@ -76,20 +157,6 @@ public class teacherDashboardView extends Main {
         return calendar;
     }
 
-    private Component weather() {
-
-        // 35.4269° N, 7.1460° E
-        Image weatherStatusIcon = new Image();
-        weatherService ss = new weatherService();
-       final Grid<WeatherApi> commentsGrid = new Grid<WeatherApi>(WeatherApi.class);
-       final Button fetchComments = new Button("Fetch Weather",
-               e -> commentsGrid.setItems(ss.getWeatherService()));
-
-        weatherStatusIcon.setSrc("/icons/weatherIcons/storm-weather-day.png");
-       VerticalLayout weatherWidget = new VerticalLayout();
-        weatherWidget.add(fetchComments,commentsGrid,weatherStatusIcon);
-        return weatherWidget;
-    }
 
     private Component createServiceHealth() {
         // Header

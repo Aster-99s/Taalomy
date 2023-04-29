@@ -29,7 +29,7 @@ public class booksView extends Main{
         //  PDF viewer
 
         PdfViewer pdfViewer = new PdfViewer();
-        StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/PDFs/example.pdf"));
+        StreamResource resource = new StreamResource("5ap-ar.pdf", () -> getClass().getResourceAsStream("/PDFs/5ap-ar.pdf"));
         pdfViewer.setSrc(resource);
         pdfViewer.setAddDownloadButton(false);
         pdfViewer.setCustomTitle("اللغة العربية");
